@@ -4,17 +4,12 @@ define auto_jenkin::job (
 ) {
   include auto_jenkin
 
-  file { "/var/lib/jenkins/jobs":
-    ensure    => directory,
-    owner     => 'jenkins',
-    group     => 'jenkins',
-    mode      => '755'
-  } ->
   file { "/var/lib/jenkins/jobs/${name}":
     ensure    => directory,
     owner     => 'jenkins',
     group     => 'jenkins',
-    mode      => '755'
+    mode      => '755',
+    require   => File['/var/lib/jenkins/jobs']
   }
 
   $job_config = "/var/lib/jenkins/jobs/${name}/config.xml"
